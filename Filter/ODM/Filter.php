@@ -9,10 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Filter\ORM;
+namespace Sonata\AdminBundle\Filter\ODM;
 
 use Sonata\AdminBundle\Filter\Filter as BaseFilter;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Symfony\Component\Form\FormBuilder;
 
 abstract class Filter extends BaseFilter
 {

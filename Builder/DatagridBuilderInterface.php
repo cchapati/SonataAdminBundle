@@ -31,8 +31,8 @@ interface DatagridBuilderInterface
      * Returns the class associated to a FieldDescription if any defined
      *
      * @throws RuntimeException
-     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $fieldDescription
-     * @return bool|string
+     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @return string
      */
     function getFilterFieldClass(FieldDescriptionInterface $fieldDescription);
 

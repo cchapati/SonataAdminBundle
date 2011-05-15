@@ -11,7 +11,6 @@
 
 namespace Sonata\AdminBundle\Filter\ORM;
 
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\FormFactory;
 
 class IntegerFilter extends Filter

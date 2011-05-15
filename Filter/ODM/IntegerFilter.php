@@ -9,35 +9,40 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Filter\ORM;
+namespace Sonata\AdminBundle\Filter\ODM;
 
 use Symfony\Component\Form\FormFactory;
 
-class StringFilter extends Filter
+class IntegerFilter extends Filter
 {
-
     public function filter($queryBuilder, $alias, $field, $value)
     {
         if ($value == null) {
             return;
         }
 
-        $value      = sprintf($this->getOption('format'), $value);
+        $validOperators = array(
+            '>' => 'gt',
+            '>=' => 'gte',
+            '<' => 'lt',
+            '<=' => 'lte',
+            '=' =>'equals'
+        );
 
-        // c.name LIKE '%word%' => c.name LIKE :fieldName
-        $queryBuilder->andWhere(sprintf('%s.%s LIKE :%s',
-            $alias,
-            $field,
-            $this->getName()
-        ));
+        if (!isset($validOperators[$this->getOption('operator')])) {
+            throw new \RuntimeException('Invalid operator');
+        }
 
-        $queryBuilder->setParameter($this->getName(), $value);
+        $operator = $validOperators[$this->getOption('operator')];
+
+        call_user_func(array($queryBuilder->field($field), $operator), $value);
     }
 
     public function getDefaultOptions()
     {
         return array(
-            'format'   => '%%%s%%'
+            'operator' => '=',
+            'format'   => '%d'
         );
     }
 

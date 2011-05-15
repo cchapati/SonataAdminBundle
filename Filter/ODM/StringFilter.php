@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Filter\ORM;
+namespace Sonata\AdminBundle\Filter\ODM;
 
 use Symfony\Component\Form\FormFactory;
 
@@ -24,20 +24,13 @@ class StringFilter extends Filter
 
         $value      = sprintf($this->getOption('format'), $value);
 
-        // c.name LIKE '%word%' => c.name LIKE :fieldName
-        $queryBuilder->andWhere(sprintf('%s.%s LIKE :%s',
-            $alias,
-            $field,
-            $this->getName()
-        ));
-
-        $queryBuilder->setParameter($this->getName(), $value);
+        $queryBuilder->field($field)->equals(new \MongoRegex($value));
     }
 
     public function getDefaultOptions()
     {
         return array(
-            'format'   => '%%%s%%'
+            'format'   => '/.*%s.*/i'
         );
     }
 

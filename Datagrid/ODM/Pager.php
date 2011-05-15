@@ -9,15 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Datagrid\ORM;
+namespace Sonata\AdminBundle\Datagrid\ODM;
 
 use Sonata\AdminBundle\Datagrid\Pager as BasePager;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
+
 class Pager extends BasePager
 {
-    protected $queryBuilder     = null;
+    protected $queryBuilder;
+
+    protected $results;
 
     /**
      * Returns a query for counting the total results.
@@ -32,10 +35,9 @@ class Pager extends BasePager
             $countQuery->setParameters($this->getParameters());
         }
 
-        $countQuery->select(sprintf('DISTINCT count(%s.%s) as cnt', $countQuery->getRootAlias(), $this->getCountColumn()));
-
-        return $countQuery->getSingleScalarResult();
+        return $countQuery->count();
     }
+
 
     /**
      * Get all the results for the pager instance
@@ -43,9 +45,9 @@ class Pager extends BasePager
      * @param mixed $hydrationMode A hydration mode identifier
      * @return array
      */
-    public function getResults($hydrationMode = Query::HYDRATE_OBJECT)
+    public function getResults()
     {
-        return $this->getQuery()->execute(array(), $hydrationMode);
+        return $this->getQuery()->execute();
     }
 
     /**
