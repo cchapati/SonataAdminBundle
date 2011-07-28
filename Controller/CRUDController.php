@@ -190,7 +190,8 @@ class CRUDController extends Controller
 
         $this->admin->setSubject($object);
 
-        $form = $this->admin->getForm($object);
+        $form = $this->admin->getForm();
+        $form->setData($object);
 
         if ($this->get('request')->getMethod() == 'POST') {
             $form->bindRequest($this->get('request'));
@@ -342,9 +343,9 @@ class CRUDController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewAction($id)
+    public function showAction($id)
     {
-        if (false === $this->admin->isGranted('VIEW')) {
+        if (false === $this->admin->isGranted('SHOW')) {
             throw new AccessDeniedException();
         }
 
@@ -356,9 +357,13 @@ class CRUDController extends Controller
 
         $this->admin->setSubject($object);
 
-        return $this->render($this->admin->getViewTemplate(), array(
-            'action'         => 'view',
+        // build the show list
+        $elements = $this->admin->getShow();
+
+        return $this->render($this->admin->getShowTemplate(), array(
+            'action'         => 'show',
             'object'         => $object,
+            'elements'       => $this->admin->getShow(),
             'admin'          => $this->admin,
             'base_template'  => $this->getBaseTemplate(),
         ));
