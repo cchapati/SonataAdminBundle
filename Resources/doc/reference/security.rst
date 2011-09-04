@@ -87,7 +87,7 @@ Configuration
             # Secured part of the site
             # This config requires being logged for the whole site and having the admin role for the admin part.
             # Change these rules to adapt them to your needs
-            - { path: ^/admin/, role: ROLE_ADMIN }
+            - { path: ^/admin/, role: ROLE_SONATA_ADMIN }
             - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
 
