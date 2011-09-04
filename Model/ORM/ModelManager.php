@@ -154,6 +154,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
+     * @param $class
      * @param string $alias
      * @return \Doctrine\ORM\QueryBuilder a query instance
      */
@@ -185,7 +186,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @throws \RuntimeException
      * @param $entity
-     * @return
+     * @return array
      */
     public function getIdentifierValues($entity)
     {
@@ -256,6 +257,16 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
+     * @param $class
+     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
+     * @return void
+     */
+    public function fixIterateQuery($class, ProxyQueryInterface $queryProxy)
+    {
+        $queryProxy->select($queryProxy->getRootAlias());
+    }
+
+    /**
      * Deletes a set of $class identified by the provided $idx array
      *
      * @param $class
@@ -316,7 +327,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $datagrid
      * @param $page
-     * @return void
+     * @return array
      */
     public function getPaginationParameters(DatagridInterface $datagrid, $page)
     {
@@ -343,7 +354,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $class
      * @param object $instance
-     * @return void
+     * @return object
      */
     public function modelTransform($class, $instance)
     {

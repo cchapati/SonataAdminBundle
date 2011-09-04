@@ -353,6 +353,8 @@ class CRUDController extends Controller
         $query->setFirstResult(null);
         $query->setMaxResults(null);
 
+        $this->admin->getModelManager()->fixIterateQuery($this->admin->getClass(), $query);
+
         if (count($idx) > 0) {
             $this->admin->getModelManager()->addIdentifiersToQuery($this->admin->getClass(), $query, $idx);
         }
