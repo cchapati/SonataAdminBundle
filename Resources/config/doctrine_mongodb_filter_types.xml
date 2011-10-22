@@ -29,5 +29,4 @@
             <tag name="sonata.admin.filter.type" alias="doctrine_odm_number" />
         </service>
     </services>
-
 </container>
